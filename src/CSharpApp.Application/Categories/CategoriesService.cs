@@ -1,4 +1,6 @@
-﻿namespace CSharpApp.Application.Categories
+﻿using System.Net.Http.Json;
+
+namespace CSharpApp.Application.Categories
 {
     public class CategoriesService : ICategoriesService
     {
@@ -24,6 +26,14 @@
         public async Task<Category> GetCategoryById(int categoryId)
         {
             var response = await _httpClient.GetAsync($"{_restApiSettings.Categories}/{categoryId}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<Category>(content);
+        }
+
+        public async Task<Category> CreateCategory(Category category)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Categories}", category);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Category>(content);

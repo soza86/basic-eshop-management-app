@@ -1,7 +1,9 @@
 using CSharpApp.Application;
+using CSharpApp.Application.Commands;
 using CSharpApp.Application.Queries;
 using CSharpApp.Core.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +69,14 @@ versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", asyn
     return newProduct;
 })
     .WithName("CreateProduct")
+    .HasApiVersion(1.0);
+
+versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/categories", async (Category category, IMediator mediator) =>
+{
+    var newCategory = await mediator.Send(new CreateCategoryCommand(category));
+    return newCategory;
+})
+    .WithName("CreateCategory")
     .HasApiVersion(1.0);
 
 app.Run();
