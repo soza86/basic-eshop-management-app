@@ -10,8 +10,11 @@ public static class DefaultConfiguration
         services.Configure<RestApiSettings>(configuration!.GetSection(nameof(RestApiSettings)));
         services.Configure<HttpClientSettings>(configuration.GetSection(nameof(HttpClientSettings)));
 
-        services.AddSingleton<IProductsService, ProductsService>();
-        
+        services.AddHttpClient<IProductsService, ProductsService>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.escuelajs.co/api/v1/");
+        });
+
         return services;
     }
 }
