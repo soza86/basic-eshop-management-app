@@ -5,4 +5,6 @@ public interface IProductsService
     Task<IReadOnlyCollection<Product>> GetProducts();
 
     Task<Product> GetProductById(int productId);
+
+    Task<Product> CreateProduct(Product product);
 }
