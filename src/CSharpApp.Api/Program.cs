@@ -1,4 +1,7 @@
+using CSharpApp.Application;
+using CSharpApp.Application.Queries;
 using CSharpApp.Core.Dtos;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,7 @@ builder.Services.AddDefaultConfiguration();
 builder.Services.AddHttpConfiguration();
 builder.Services.AddProblemDetails();
 builder.Services.AddApiVersioning();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly));
 
 var app = builder.Build();
 
@@ -31,6 +35,14 @@ versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async
         return products;
     })
     .WithName("GetProducts")
+    .HasApiVersion(1.0);
+
+versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories", async (IMediator mediator) =>
+{
+    var categories = await mediator.Send(new GetCategoriesQuery());
+    return categories;
+})
+    .WithName("GetCategories")
     .HasApiVersion(1.0);
 
 versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{productId}", async (int productId, IProductsService productsService) =>

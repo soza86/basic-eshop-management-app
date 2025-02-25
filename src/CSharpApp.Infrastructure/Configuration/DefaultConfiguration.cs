@@ -1,3 +1,5 @@
+using CSharpApp.Application.Categories;
+
 namespace CSharpApp.Infrastructure.Configuration;
 
 public static class DefaultConfiguration
@@ -11,6 +13,11 @@ public static class DefaultConfiguration
         services.Configure<HttpClientSettings>(configuration.GetSection(nameof(HttpClientSettings)));
 
         services.AddHttpClient<IProductsService, ProductsService>(client =>
+        {
+            client.BaseAddress = new Uri(configuration["RestApiSettings:BaseUrl"]!);
+        });
+
+        services.AddHttpClient<ICategoriesService, CategoriesService>(client =>
         {
             client.BaseAddress = new Uri(configuration["RestApiSettings:BaseUrl"]!);
         });
