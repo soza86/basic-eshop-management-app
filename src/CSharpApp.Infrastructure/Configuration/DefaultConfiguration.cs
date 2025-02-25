@@ -12,7 +12,7 @@ public static class DefaultConfiguration
 
         services.AddHttpClient<IProductsService, ProductsService>(client =>
         {
-            client.BaseAddress = new Uri("https://api.escuelajs.co/api/v1/");
+            client.BaseAddress = new Uri(configuration["RestApiSettings:BaseUrl"]!);
         });
 
         return services;
