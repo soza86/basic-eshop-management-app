@@ -20,5 +20,13 @@
             var res = JsonSerializer.Deserialize<List<Category>>(content);
             return res.AsReadOnly();
         }
+
+        public async Task<Category> GetCategoryById(int categoryId)
+        {
+            var response = await _httpClient.GetAsync($"{_restApiSettings.Categories}/{categoryId}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<Category>(content);
+        }
     }
 }

@@ -53,6 +53,14 @@ versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{produc
     .WithName("GetProductById")
     .HasApiVersion(1.0);
 
+versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories/{categoryId}", async (int categoryId, IMediator mediator) =>
+{
+    var category = await mediator.Send(new GetCategoryByIdQuery(categoryId));
+    return category;
+})
+    .WithName("GetCategoryById")
+    .HasApiVersion(1.0);
+
 versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (Product product, IProductsService productsService) =>
 {
     var newProduct = await productsService.CreateProduct(product);
