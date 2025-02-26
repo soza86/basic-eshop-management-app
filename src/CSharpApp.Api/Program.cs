@@ -2,6 +2,7 @@ using CSharpApp.Api.Middlewares;
 using CSharpApp.Application;
 using CSharpApp.Application.Commands.Category;
 using CSharpApp.Application.Commands.Product;
+using CSharpApp.Application.Configuration;
 using CSharpApp.Application.Queries.Category;
 using CSharpApp.Application.Queries.Product;
 using CSharpApp.Core.Dtos;
@@ -20,6 +21,7 @@ builder.Services.AddHttpConfiguration();
 builder.Services.AddProblemDetails();
 builder.Services.AddApiVersioning();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly));
+builder.Services.AddMappingConfiguration();
 
 var app = builder.Build();
 
