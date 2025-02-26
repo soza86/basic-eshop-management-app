@@ -1,20 +1,20 @@
 using CSharpApp.Core.Models;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
+using System.Text.Json;
 
-namespace CSharpApp.Application.Products;
+namespace CSharpApp.Infrastructure.ExternalServices;
 
 public class ProductsService : IProductsService
 {
     private readonly HttpClient _httpClient;
     private readonly RestApiSettings _restApiSettings;
-    private readonly ILogger<ProductsService> _logger;
 
-    public ProductsService(HttpClient httpClient, IOptions<RestApiSettings> restApiSettings, 
-        ILogger<ProductsService> logger)
+    public ProductsService(HttpClient httpClient, 
+                           IOptions<RestApiSettings> restApiSettings)
     {
         _httpClient = httpClient;
         _restApiSettings = restApiSettings.Value;
-        _logger = logger;
     }
 
     public async Task<IReadOnlyCollection<ProductServiceModel>> GetProducts()
@@ -22,7 +22,7 @@ public class ProductsService : IProductsService
         var response = await _httpClient.GetAsync(_restApiSettings.Products);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        var res = JsonSerializer.Deserialize<List<ProductServiceModel>>(content);      
+        var res = JsonSerializer.Deserialize<List<ProductServiceModel>>(content);
         return res.AsReadOnly();
     }
 

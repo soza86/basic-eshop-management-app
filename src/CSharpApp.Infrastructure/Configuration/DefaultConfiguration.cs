@@ -1,4 +1,3 @@
-using CSharpApp.Application.Categories;
 using CSharpApp.Infrastructure.ExternalServices;
 
 namespace CSharpApp.Infrastructure.Configuration;

@@ -1,14 +1,16 @@
 ﻿using CSharpApp.Core.Models;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
+using System.Text.Json;
 
-namespace CSharpApp.Application.Categories
+namespace CSharpApp.Infrastructure.ExternalServices
 {
     public class CategoriesService : ICategoriesService
     {
         private readonly HttpClient _httpClient;
         private readonly RestApiSettings _restApiSettings;
 
-        public CategoriesService(HttpClient httpClient, 
+        public CategoriesService(HttpClient httpClient,
                                  IOptions<RestApiSettings> restApiSettings)
         {
             _httpClient = httpClient;
