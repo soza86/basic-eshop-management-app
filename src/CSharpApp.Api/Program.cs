@@ -1,10 +1,11 @@
 using CSharpApp.Api.Middlewares;
 using CSharpApp.Application;
-using CSharpApp.Application.Commands;
-using CSharpApp.Application.Queries;
+using CSharpApp.Application.Commands.Category;
+using CSharpApp.Application.Commands.Product;
+using CSharpApp.Application.Queries.Category;
+using CSharpApp.Application.Queries.Product;
 using CSharpApp.Core.Dtos;
 using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +35,9 @@ if (app.Environment.IsDevelopment())
 
 var versionedEndpointRouteBuilder = app.NewVersionedApi();
 
-versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async (IProductsService productsService) =>
+versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async (IMediator mediator) =>
     {
-        var products = await productsService.GetProducts();
+        var products = await mediator.Send(new GetProductsQuery());
         return products;
     })
     .WithName("GetProducts")
@@ -50,9 +51,9 @@ versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories", asy
     .WithName("GetCategories")
     .HasApiVersion(1.0);
 
-versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{productId}", async (int productId, IProductsService productsService) =>
+versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{productId}", async (int productId, IMediator mediator) =>
 {
-    var product = await productsService.GetProductById(productId);
+    var product = await mediator.Send(new GetProductByIdQuery(productId));
     return product;
 })
     .WithName("GetProductById")
@@ -66,9 +67,9 @@ versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories/{cate
     .WithName("GetCategoryById")
     .HasApiVersion(1.0);
 
-versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (Product product, IProductsService productsService) =>
+versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (Product product, IMediator mediator) =>
 {
-    var newProduct = await productsService.CreateProduct(product);
+    var newProduct = await mediator.Send(new CreateProductCommand(product));
     return newProduct;
 })
     .WithName("CreateProduct")
