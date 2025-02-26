@@ -1,3 +1,4 @@
+using CSharpApp.Api.Middlewares;
 using CSharpApp.Application;
 using CSharpApp.Application.Commands;
 using CSharpApp.Application.Queries;
@@ -20,6 +21,8 @@ builder.Services.AddApiVersioning();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly));
 
 var app = builder.Build();
+
+app.UseMiddleware<CustomLoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
