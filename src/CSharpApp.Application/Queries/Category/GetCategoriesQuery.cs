@@ -2,5 +2,5 @@
 
 namespace CSharpApp.Application.Queries.Category
 {
-    public record GetCategoriesQuery() : IRequest<IReadOnlyCollection<Core.Dtos.Category?>>;
+    public record GetCategoriesQuery() : IRequest<List<Core.Dtos.Category>>;
 }

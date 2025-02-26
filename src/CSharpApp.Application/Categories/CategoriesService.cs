@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using CSharpApp.Core.Models;
+using System.Net.Http.Json;
 
 namespace CSharpApp.Application.Categories
 {
@@ -14,29 +15,29 @@ namespace CSharpApp.Application.Categories
             _restApiSettings = restApiSettings.Value;
         }
 
-        public async Task<IReadOnlyCollection<Category>> GetCategories()
+        public async Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories()
         {
             var response = await _httpClient.GetAsync(_restApiSettings.Categories);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var res = JsonSerializer.Deserialize<List<Category>>(content);
+            var res = JsonSerializer.Deserialize<List<CategoryServiceModel>>(content);
             return res.AsReadOnly();
         }
 
-        public async Task<Category> GetCategoryById(int categoryId)
+        public async Task<CategoryServiceModel> GetCategoryById(int categoryId)
         {
             var response = await _httpClient.GetAsync($"{_restApiSettings.Categories}/{categoryId}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Category>(content);
+            return JsonSerializer.Deserialize<CategoryServiceModel>(content);
         }
 
-        public async Task<Category> CreateCategory(Category category)
+        public async Task<CategoryServiceModel> CreateCategory(CategoryServiceModel category)
         {
             var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Categories}", category);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Category>(content);
+            return JsonSerializer.Deserialize<CategoryServiceModel>(content);
         }
     }
 }

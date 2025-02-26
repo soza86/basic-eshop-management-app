@@ -4,7 +4,7 @@ using MediatR;
 
 namespace CSharpApp.Application.Handlers.Product
 {
-    public class GetProductsHandler : IRequestHandler<GetProductsQuery, List<Core.Dtos.Product?>>
+    public class GetProductsHandler : IRequestHandler<GetProductsQuery, List<Core.Dtos.Product>>
     {
         private readonly IProductsService _productsService;
         private readonly IMapper<ProductServiceModel, Core.Dtos.Product> _customProductMapper;

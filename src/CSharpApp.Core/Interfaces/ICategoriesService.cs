@@ -1,11 +1,13 @@
-﻿namespace CSharpApp.Core.Interfaces
+﻿using CSharpApp.Core.Models;
+
+namespace CSharpApp.Core.Interfaces
 {
     public interface ICategoriesService
     {
-        Task<IReadOnlyCollection<Category>> GetCategories();
+        Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories();
 
-        Task<Category> GetCategoryById(int categoryId);
+        Task<CategoryServiceModel> GetCategoryById(int categoryId);
 
-        Task<Category> CreateCategory(Category category);
+        Task<CategoryServiceModel> CreateCategory(CategoryServiceModel category);
     }
 }
