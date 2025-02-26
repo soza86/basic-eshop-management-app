@@ -1,10 +1,12 @@
+using CSharpApp.Core.Models;
+
 namespace CSharpApp.Core.Interfaces;
 
 public interface IProductsService
 {
-    Task<IReadOnlyCollection<Product>> GetProducts();
+    Task<IReadOnlyCollection<ProductServiceModel>> GetProducts();
 
-    Task<Product> GetProductById(int productId);
+    Task<ProductServiceModel> GetProductById(int productId);
 
-    Task<Product> CreateProduct(Product product);
+    Task<ProductServiceModel> CreateProduct(ProductServiceModel product);
 }

@@ -1,4 +1,4 @@
-using CSharpApp.Core.Dtos;
+using CSharpApp.Core.Models;
 using System.Net.Http.Json;
 
 namespace CSharpApp.Application.Products;
@@ -17,28 +17,28 @@ public class ProductsService : IProductsService
         _logger = logger;
     }
 
-    public async Task<IReadOnlyCollection<Product>> GetProducts()
+    public async Task<IReadOnlyCollection<ProductServiceModel>> GetProducts()
     {
         var response = await _httpClient.GetAsync(_restApiSettings.Products);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        var res = JsonSerializer.Deserialize<List<Product>>(content);      
+        var res = JsonSerializer.Deserialize<List<ProductServiceModel>>(content);      
         return res.AsReadOnly();
     }
 
-    public async Task<Product> GetProductById(int productId)
+    public async Task<ProductServiceModel> GetProductById(int productId)
     {
         var response = await _httpClient.GetAsync($"{_restApiSettings.Products}/{productId}");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<Product>(content);
+        return JsonSerializer.Deserialize<ProductServiceModel>(content);
     }
 
-    public async Task<Product> CreateProduct(Product product)
+    public async Task<ProductServiceModel> CreateProduct(ProductServiceModel product)
     {
         var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Products}", product);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<Product>(content);
+        return JsonSerializer.Deserialize<ProductServiceModel>(content);
     }
 }
