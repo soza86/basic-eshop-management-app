@@ -16,7 +16,7 @@ namespace CSharpApp.Tests.Handlers
         private readonly GetCategoryByIdHandler _getCategoryByIdHandler;
         private readonly CreateCategoryHandler _createCategoryHandler;
         private readonly IMapper<CategoryServiceModel, Category> _customCategoryMapper;
-        private readonly IMapper<Category, CategoryServiceModel> _customCategoryServiceModelMapper;
+        private readonly IMapper<CreateCategory, CreateCategoryServiceModel> _customCategoryServiceModelMapper;
 
         public CategoryHandlerTests()
         {
@@ -93,7 +93,7 @@ namespace CSharpApp.Tests.Handlers
         public async Task Given_IRequestToCreateNewCategory_When_CreateCategoryHandler_Then_ReturnsNewCategory()
         {
             // Arrange
-            var category = new Category
+            var category = new CreateCategory
             {
                 Name = "Test Name",
                 Image = "Test Image"
@@ -108,7 +108,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var command = new CreateCategoryCommand(category);
             var cancellationToken = new CancellationToken();
-            _categoryServiceMock.Setup(a => a.CreateCategory(It.IsAny<CategoryServiceModel>())).ReturnsAsync(categoryRecord);
+            _categoryServiceMock.Setup(a => a.CreateCategory(It.IsAny<CreateCategoryServiceModel>())).ReturnsAsync(categoryRecord);
 
             // Act
             var newCategory = await _createCategoryHandler.Handle(command, cancellationToken);
@@ -117,7 +117,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal(1, newCategory?.Id);
             Assert.Equal("Test Name", newCategory?.Name);
             Assert.Equal("Test Image", newCategory?.Image);
-            _categoryServiceMock.Verify(repo => repo.CreateCategory(It.IsAny<CategoryServiceModel>()), Times.Once);
+            _categoryServiceMock.Verify(repo => repo.CreateCategory(It.IsAny<CreateCategoryServiceModel>()), Times.Once);
         }
     }
 }

@@ -8,6 +8,6 @@ namespace CSharpApp.Core.Interfaces
 
         Task<CategoryServiceModel> GetCategoryById(int categoryId);
 
-        Task<CategoryServiceModel> CreateCategory(CategoryServiceModel category);
+        Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category);
     }
 }

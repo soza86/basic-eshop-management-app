@@ -2,7 +2,7 @@
 
 namespace CSharpApp.Application.Mappings
 {
-    public class CustomCategoryMapper : IMapper<CategoryServiceModel, Category>, IMapper<Category, CategoryServiceModel>
+    public class CustomCategoryMapper : IMapper<CategoryServiceModel, Category>, IMapper<Category, CategoryServiceModel>, IMapper<CreateCategory, CreateCategoryServiceModel>
     {
         public Category Map(CategoryServiceModel source)
         {
@@ -46,6 +46,20 @@ namespace CSharpApp.Application.Mappings
         }
 
         public List<CategoryServiceModel> Map(IReadOnlyCollection<Category> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CreateCategoryServiceModel Map(CreateCategory source)
+        {
+            return new CreateCategoryServiceModel
+            {
+                Name = source.Name,
+                Image = source.Image
+            };
+        }
+
+        public List<CreateCategoryServiceModel> Map(IReadOnlyCollection<CreateCategory> source)
         {
             throw new NotImplementedException();
         }

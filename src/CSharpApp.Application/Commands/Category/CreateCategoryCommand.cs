@@ -2,5 +2,5 @@
 
 namespace CSharpApp.Application.Commands.Category
 {
-    public record CreateCategoryCommand(Core.Dtos.Category Category) : IRequest<Core.Dtos.Category>;
+    public record CreateCategoryCommand(CreateCategory Category) : IRequest<Core.Dtos.Category>;
 }

@@ -34,7 +34,7 @@ namespace CSharpApp.Infrastructure.ExternalServices
             return JsonSerializer.Deserialize<CategoryServiceModel>(content);
         }
 
-        public async Task<CategoryServiceModel> CreateCategory(CategoryServiceModel category)
+        public async Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category)
         {
             var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Categories}", category);
             response.EnsureSuccessStatusCode();
