@@ -49,7 +49,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var query = new GetProductsQuery();
             var cancellationToken = new CancellationToken();
-            _productServiceMock.Setup(a => a.GetProducts()).ReturnsAsync(productsList);
+            _productServiceMock.Setup(a => a.GetProducts(It.IsAny<CancellationToken>())).ReturnsAsync(productsList);
 
             // Act
             var products = await _getProductsHandler.Handle(query, cancellationToken);
@@ -60,7 +60,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal("Test description", products.ElementAtOrDefault(0)?.Description);
             Assert.Equal(100, products.ElementAtOrDefault(0)?.Price);
             Assert.Equal("Test title", products.ElementAtOrDefault(0)?.Title);
-            _productServiceMock.Verify(repo => repo.GetProducts(), Times.Once);
+            _productServiceMock.Verify(repo => repo.GetProducts(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var query = new GetProductByIdQuery(id);
             var cancellationToken = new CancellationToken();
-            _productServiceMock.Setup(a => a.GetProductById(It.IsAny<int>())).ReturnsAsync(productRecord);
+            _productServiceMock.Setup(a => a.GetProductById(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(productRecord);
 
             // Act
             var product = await _getProductByIdHandler.Handle(query, cancellationToken);
@@ -87,7 +87,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal("Test description", product?.Description);
             Assert.Equal(100, product?.Price);
             Assert.Equal("Test title", product?.Title);
-            _productServiceMock.Verify(repo => repo.GetProductById(id), Times.Once);
+            _productServiceMock.Verify(repo => repo.GetProductById(id, cancellationToken), Times.Once);
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var command = new CreateProductCommand(product);
             var cancellationToken = new CancellationToken();
-            _productServiceMock.Setup(a => a.CreateProduct(It.IsAny<CreateProductServiceModel>())).ReturnsAsync(productRecord);
+            _productServiceMock.Setup(a => a.CreateProduct(It.IsAny<CreateProductServiceModel>(), It.IsAny<CancellationToken>())).ReturnsAsync(productRecord);
 
             // Act
             var newProduct = await _createProductHandler.Handle(command, cancellationToken);
@@ -123,7 +123,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal("Test description", newProduct?.Description);
             Assert.Equal(100, newProduct?.Price);
             Assert.Equal("Test title", newProduct?.Title);
-            _productServiceMock.Verify(repo => repo.CreateProduct(It.IsAny<CreateProductServiceModel>()), Times.Once);
+            _productServiceMock.Verify(repo => repo.CreateProduct(It.IsAny<CreateProductServiceModel>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

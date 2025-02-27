@@ -10,33 +10,33 @@ public class ProductsService : IProductsService
     private readonly HttpClient _httpClient;
     private readonly RestApiSettings _restApiSettings;
 
-    public ProductsService(HttpClient httpClient, 
+    public ProductsService(HttpClient httpClient,
                            IOptions<RestApiSettings> restApiSettings)
     {
         _httpClient = httpClient;
         _restApiSettings = restApiSettings.Value;
     }
 
-    public async Task<IReadOnlyCollection<ProductServiceModel>> GetProducts()
+    public async Task<IReadOnlyCollection<ProductServiceModel>> GetProducts(CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync(_restApiSettings.Products);
+        var response = await _httpClient.GetAsync(_restApiSettings.Products, cancellationToken);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         var res = JsonSerializer.Deserialize<List<ProductServiceModel>>(content);
         return res.AsReadOnly();
     }
 
-    public async Task<ProductServiceModel> GetProductById(int productId)
+    public async Task<ProductServiceModel> GetProductById(int productId, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync($"{_restApiSettings.Products}/{productId}");
+        var response = await _httpClient.GetAsync($"{_restApiSettings.Products}/{productId}", cancellationToken);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<ProductServiceModel>(content);
     }
 
-    public async Task<ProductServiceModel> CreateProduct(CreateProductServiceModel product)
+    public async Task<ProductServiceModel> CreateProduct(CreateProductServiceModel product, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Products}", product);
+        var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Products}", product, cancellationToken);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<ProductServiceModel>(content);

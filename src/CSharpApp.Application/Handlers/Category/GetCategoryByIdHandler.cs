@@ -18,7 +18,7 @@ namespace CSharpApp.Application.Handlers.Category
 
         public async Task<Core.Dtos.Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _categoriesService.GetCategoryById(request.Id);
+            var result = await _categoriesService.GetCategoryById(request.Id, cancellationToken);
             return _customCategoryMapper.Map(result);
         }
     }

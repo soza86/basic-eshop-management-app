@@ -22,7 +22,7 @@ namespace CSharpApp.Application.Handlers.Category
         public async Task<Core.Dtos.Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var requestModel = _customCategoryServiceModelMapper.Map(request.Category);
-            var result = await _categoriesService.CreateCategory(requestModel);
+            var result = await _categoriesService.CreateCategory(requestModel, cancellationToken);
             return _customCategoryMapper.Map(result);
         }
     }

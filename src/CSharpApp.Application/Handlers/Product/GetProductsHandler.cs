@@ -18,7 +18,7 @@ namespace CSharpApp.Application.Handlers.Product
 
         public async Task<List<Core.Dtos.Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _productsService.GetProducts();
+            var result = await _productsService.GetProducts(cancellationToken);
             return _customProductMapper.Map(result);
         }
     }

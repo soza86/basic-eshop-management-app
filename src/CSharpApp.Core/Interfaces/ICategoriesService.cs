@@ -4,10 +4,10 @@ namespace CSharpApp.Core.Interfaces
 {
     public interface ICategoriesService
     {
-        Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories();
+        Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories(CancellationToken cancellationToken);
 
-        Task<CategoryServiceModel> GetCategoryById(int categoryId);
+        Task<CategoryServiceModel> GetCategoryById(int categoryId, CancellationToken cancellationToken);
 
-        Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category);
+        Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category, CancellationToken cancellationToken);
     }
 }

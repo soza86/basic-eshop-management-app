@@ -17,26 +17,26 @@ namespace CSharpApp.Infrastructure.ExternalServices
             _restApiSettings = restApiSettings.Value;
         }
 
-        public async Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories()
+        public async Task<IReadOnlyCollection<CategoryServiceModel>> GetCategories(CancellationToken cancellationToken)
         {
-            var response = await _httpClient.GetAsync(_restApiSettings.Categories);
+            var response = await _httpClient.GetAsync(_restApiSettings.Categories, cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var res = JsonSerializer.Deserialize<List<CategoryServiceModel>>(content);
             return res.AsReadOnly();
         }
 
-        public async Task<CategoryServiceModel> GetCategoryById(int categoryId)
+        public async Task<CategoryServiceModel> GetCategoryById(int categoryId, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.GetAsync($"{_restApiSettings.Categories}/{categoryId}");
+            var response = await _httpClient.GetAsync($"{_restApiSettings.Categories}/{categoryId}", cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<CategoryServiceModel>(content);
         }
 
-        public async Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category)
+        public async Task<CategoryServiceModel> CreateCategory(CreateCategoryServiceModel category, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Categories}", category);
+            var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Categories}", category, cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<CategoryServiceModel>(content);

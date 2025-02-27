@@ -42,49 +42,49 @@ namespace CSharpApp.Api
 
             var versionedEndpointRouteBuilder = app.NewVersionedApi();
 
-            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async (IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async (IMediator mediator, CancellationToken cancellationToken) =>
                 {
-                    var products = await mediator.Send(new GetProductsQuery());
+                    var products = await mediator.Send(new GetProductsQuery(), cancellationToken);
                     return products;
                 })
                 .WithName("GetProducts")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories", async (IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories", async (IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var categories = await mediator.Send(new GetCategoriesQuery());
+                var categories = await mediator.Send(new GetCategoriesQuery(), cancellationToken);
                 return categories;
             })
                 .WithName("GetCategories")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{productId}", async (int productId, IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products/{productId}", async (int productId, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var product = await mediator.Send(new GetProductByIdQuery(productId));
+                var product = await mediator.Send(new GetProductByIdQuery(productId), cancellationToken);
                 return product;
             })
                 .WithName("GetProductById")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories/{categoryId}", async (int categoryId, IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/categories/{categoryId}", async (int categoryId, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var category = await mediator.Send(new GetCategoryByIdQuery(categoryId));
+                var category = await mediator.Send(new GetCategoryByIdQuery(categoryId), cancellationToken);
                 return category;
             })
                 .WithName("GetCategoryById")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (CreateProduct product, IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (CreateProduct product, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var newProduct = await mediator.Send(new CreateProductCommand(product));
+                var newProduct = await mediator.Send(new CreateProductCommand(product), cancellationToken);
                 return newProduct;
             })
                 .WithName("CreateProduct")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/categories", async (CreateCategory category, IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/categories", async (CreateCategory category, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var newCategory = await mediator.Send(new CreateCategoryCommand(category));
+                var newCategory = await mediator.Send(new CreateCategoryCommand(category), cancellationToken);
                 return newCategory;
             })
                 .WithName("CreateCategory")

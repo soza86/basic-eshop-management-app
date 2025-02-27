@@ -20,7 +20,7 @@ namespace CSharpApp.Infrastructure.ExternalServices
             _options = options.Value;
         }
 
-        public async Task<string> GetToken()
+        public async Task<string> GetToken(CancellationToken cancellationToken)
         {
             if (_cache.TryGetValue("jwt_token", out string token))
                 return token;
@@ -31,7 +31,7 @@ namespace CSharpApp.Infrastructure.ExternalServices
                 password = _options.Password,
             };
 
-            var response = await _httpClient.PostAsJsonAsync($"{_options.BaseUrl}{_options.Auth}", request);
+            var response = await _httpClient.PostAsJsonAsync($"{_options.BaseUrl}{_options.Auth}", request, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Failed to retrieve JWT token");

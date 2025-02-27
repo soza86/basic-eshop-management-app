@@ -51,7 +51,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var query = new GetCategoriesQuery();
             var cancellationToken = new CancellationToken();
-            _categoryServiceMock.Setup(a => a.GetCategories()).ReturnsAsync(categoriesList);
+            _categoryServiceMock.Setup(a => a.GetCategories(It.IsAny<CancellationToken>())).ReturnsAsync(categoriesList);
 
             // Act
             var categories = await _getCategoriesHandler.Handle(query, cancellationToken);
@@ -61,7 +61,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal(1, categories.ElementAtOrDefault(0)?.Id);
             Assert.Equal("Test Name", categories.ElementAtOrDefault(0)?.Name);
             Assert.Equal("Test Image", categories.ElementAtOrDefault(0)?.Image);
-            _categoryServiceMock.Verify(repo => repo.GetCategories(), Times.Once);
+            _categoryServiceMock.Verify(repo => repo.GetCategories(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var query = new GetCategoryByIdQuery(id);
             var cancellationToken = new CancellationToken();
-            _categoryServiceMock.Setup(a => a.GetCategoryById(It.IsAny<int>())).ReturnsAsync(categoryRecord);
+            _categoryServiceMock.Setup(a => a.GetCategoryById(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(categoryRecord);
 
             // Act
             var category = await _getCategoryByIdHandler.Handle(query, cancellationToken);
@@ -86,7 +86,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal(1, category?.Id);
             Assert.Equal("Test Name", category?.Name);
             Assert.Equal("Test Image", category?.Image);
-            _categoryServiceMock.Verify(repo => repo.GetCategoryById(id), Times.Once);
+            _categoryServiceMock.Verify(repo => repo.GetCategoryById(id, cancellationToken), Times.Once);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace CSharpApp.Tests.Handlers
             };
             var command = new CreateCategoryCommand(category);
             var cancellationToken = new CancellationToken();
-            _categoryServiceMock.Setup(a => a.CreateCategory(It.IsAny<CreateCategoryServiceModel>())).ReturnsAsync(categoryRecord);
+            _categoryServiceMock.Setup(a => a.CreateCategory(It.IsAny<CreateCategoryServiceModel>(), It.IsAny<CancellationToken>())).ReturnsAsync(categoryRecord);
 
             // Act
             var newCategory = await _createCategoryHandler.Handle(command, cancellationToken);
@@ -117,7 +117,7 @@ namespace CSharpApp.Tests.Handlers
             Assert.Equal(1, newCategory?.Id);
             Assert.Equal("Test Name", newCategory?.Name);
             Assert.Equal("Test Image", newCategory?.Image);
-            _categoryServiceMock.Verify(repo => repo.CreateCategory(It.IsAny<CreateCategoryServiceModel>()), Times.Once);
+            _categoryServiceMock.Verify(repo => repo.CreateCategory(It.IsAny<CreateCategoryServiceModel>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

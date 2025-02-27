@@ -22,7 +22,7 @@ namespace CSharpApp.Application.Handlers.Product
         public async Task<Core.Dtos.Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var requestModel = _customProductServiceModelMapper.Map(request.Product);
-            var result = await _productsService.CreateProduct(requestModel);
+            var result = await _productsService.CreateProduct(requestModel, cancellationToken);
             return _customProductMapper.Map(result);
         }
     }

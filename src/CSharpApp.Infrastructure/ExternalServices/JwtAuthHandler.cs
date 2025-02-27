@@ -13,7 +13,7 @@ namespace CSharpApp.Infrastructure.ExternalServices
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = await _jwtTokenService.GetToken();
+            var token = await _jwtTokenService.GetToken(cancellationToken);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             return await base.SendAsync(request, cancellationToken);
         }

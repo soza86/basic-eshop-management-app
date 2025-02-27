@@ -17,7 +17,7 @@ namespace CSharpApp.Application.Handlers.Product
 
         public async Task<Core.Dtos.Product?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _productsService.GetProductById(request.Id);
+            var result = await _productsService.GetProductById(request.Id, cancellationToken);
             return _customProductMapper.Map(result);
         }
     }

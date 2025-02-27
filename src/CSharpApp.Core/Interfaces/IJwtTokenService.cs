@@ -2,6 +2,6 @@
 {
     public interface IJwtTokenService
     {
-        Task<string> GetToken();
+        Task<string> GetToken(CancellationToken cancellationToken);
     }
 }
