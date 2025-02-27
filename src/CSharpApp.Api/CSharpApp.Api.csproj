@@ -24,5 +24,8 @@
       <ProjectReference Include="..\CSharpApp.Core\CSharpApp.Core.csproj" />
       <ProjectReference Include="..\CSharpApp.Infrastructure\CSharpApp.Infrastructure.csproj" />
     </ItemGroup>
+	<ItemGroup>
+	  <InternalsVisibleTo Include="..\CSharpApp.Tests" />
+	</ItemGroup>
 
 </Project>
