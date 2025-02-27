@@ -8,5 +8,5 @@ public interface IProductsService
 
     Task<ProductServiceModel> GetProductById(int productId);
 
-    Task<ProductServiceModel> CreateProduct(ProductServiceModel product);
+    Task<ProductServiceModel> CreateProduct(CreateProductServiceModel product);
 }

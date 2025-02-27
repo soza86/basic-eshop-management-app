@@ -16,7 +16,7 @@ namespace CSharpApp.Tests.Handlers
         private readonly GetProductByIdHandler _getProductByIdHandler;
         private readonly CreateProductHandler _createProductHandler;
         private readonly IMapper<ProductServiceModel, Product> _customProductMapper;
-        private readonly IMapper<Product, ProductServiceModel> _customProductServiceModelMapper;
+        private readonly IMapper<CreateProduct, CreateProductServiceModel> _customProductServiceModelMapper;
 
         public ProductHandlerTests()
         {
@@ -36,14 +36,12 @@ namespace CSharpApp.Tests.Handlers
             {
                 new() {
                     Id = 1,
-                    CategoryId = 1,
                     Description = "Test description",
                     Price = 100,
                     Title = "Test title"
                 },
                 new() {
                     Id = 2,
-                    CategoryId = 1,
                     Description = "Test description 2",
                     Price = 50,
                     Title = "Test title 2"
@@ -59,7 +57,6 @@ namespace CSharpApp.Tests.Handlers
             // Assert
             Assert.Equal(2, products.Count);
             Assert.Equal(1, products.ElementAtOrDefault(0)?.Id);
-            Assert.Equal(1, products.ElementAtOrDefault(0)?.CategoryId);
             Assert.Equal("Test description", products.ElementAtOrDefault(0)?.Description);
             Assert.Equal(100, products.ElementAtOrDefault(0)?.Price);
             Assert.Equal("Test title", products.ElementAtOrDefault(0)?.Title);
@@ -74,7 +71,6 @@ namespace CSharpApp.Tests.Handlers
             var productRecord = new ProductServiceModel
             {
                 Id = 1,
-                CategoryId = 1,
                 Description = "Test description",
                 Price = 100,
                 Title = "Test title"
@@ -88,7 +84,6 @@ namespace CSharpApp.Tests.Handlers
 
             // Assert
             Assert.Equal(1, product?.Id);
-            Assert.Equal(1, product?.CategoryId);
             Assert.Equal("Test description", product?.Description);
             Assert.Equal(100, product?.Price);
             Assert.Equal("Test title", product?.Title);
@@ -99,7 +94,7 @@ namespace CSharpApp.Tests.Handlers
         public async Task Given_IRequestToCreateNewProduct_When_CreateProductHandler_Then_ReturnsNewProduct()
         {
             // Arrange
-            var product = new Product
+            var product = new CreateProduct
             {
                 CategoryId = 1,
                 Description = "Test description",
@@ -109,7 +104,6 @@ namespace CSharpApp.Tests.Handlers
             var productRecord = new ProductServiceModel
             {
                 Id = 1,
-                CategoryId = 1,
                 Description = "Test description",
                 Price = 100,
                 Title = "Test title",
@@ -119,18 +113,17 @@ namespace CSharpApp.Tests.Handlers
             };
             var command = new CreateProductCommand(product);
             var cancellationToken = new CancellationToken();
-            _productServiceMock.Setup(a => a.CreateProduct(It.IsAny<ProductServiceModel>())).ReturnsAsync(productRecord);
+            _productServiceMock.Setup(a => a.CreateProduct(It.IsAny<CreateProductServiceModel>())).ReturnsAsync(productRecord);
 
             // Act
             var newProduct = await _createProductHandler.Handle(command, cancellationToken);
 
             // Assert
             Assert.Equal(1, newProduct?.Id);
-            Assert.Equal(1, newProduct?.CategoryId);
             Assert.Equal("Test description", newProduct?.Description);
             Assert.Equal(100, newProduct?.Price);
             Assert.Equal("Test title", newProduct?.Title);
-            _productServiceMock.Verify(repo => repo.CreateProduct(It.IsAny<ProductServiceModel>()), Times.Once);
+            _productServiceMock.Verify(repo => repo.CreateProduct(It.IsAny<CreateProductServiceModel>()), Times.Once);
         }
     }
 }

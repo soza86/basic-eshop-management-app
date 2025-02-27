@@ -2,5 +2,5 @@
 
 namespace CSharpApp.Application.Commands.Product
 {
-    public record CreateProductCommand(Core.Dtos.Product Product) : IRequest<Core.Dtos.Product>;
+    public record CreateProductCommand(CreateProduct Product) : IRequest<Core.Dtos.Product>;
 }

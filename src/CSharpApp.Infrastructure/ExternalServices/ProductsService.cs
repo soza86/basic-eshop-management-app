@@ -34,7 +34,7 @@ public class ProductsService : IProductsService
         return JsonSerializer.Deserialize<ProductServiceModel>(content);
     }
 
-    public async Task<ProductServiceModel> CreateProduct(ProductServiceModel product)
+    public async Task<ProductServiceModel> CreateProduct(CreateProductServiceModel product)
     {
         var response = await _httpClient.PostAsJsonAsync($"{_restApiSettings.Products}", product);
         response.EnsureSuccessStatusCode();

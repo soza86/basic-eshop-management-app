@@ -2,7 +2,7 @@
 
 namespace CSharpApp.Application.Mappings
 {
-    public class CustomProductMapper : IMapper<ProductServiceModel, Product>, IMapper<Product, ProductServiceModel>
+    public class CustomProductMapper : IMapper<ProductServiceModel, Product>, IMapper<Product, ProductServiceModel>, IMapper<CreateProduct, CreateProductServiceModel>
     {
         public Product Map(ProductServiceModel source)
         {
@@ -14,7 +14,6 @@ namespace CSharpApp.Application.Mappings
                 Price = source.Price,
                 Images = source.Images,
                 Category = source.Category,
-                CategoryId = source.CategoryId,
                 CreationAt = source.CreationAt,
                 UpdatedAt = source.UpdatedAt,
             };
@@ -33,7 +32,6 @@ namespace CSharpApp.Application.Mappings
                     Price = item.Price,
                     Images = item.Images,
                     Category = item.Category,
-                    CategoryId = item.CategoryId,
                     CreationAt = item.CreationAt,
                     UpdatedAt = item.UpdatedAt,
                 });
@@ -51,13 +49,29 @@ namespace CSharpApp.Application.Mappings
                 Price = source.Price,
                 Images = source.Images,
                 Category = source.Category,
-                CategoryId = source.CategoryId,
                 CreationAt = source.CreationAt,
                 UpdatedAt = source.UpdatedAt,
             };
         }
 
         public List<ProductServiceModel> Map(IReadOnlyCollection<Product> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CreateProductServiceModel Map(CreateProduct source)
+        {
+            return new CreateProductServiceModel
+            {
+                Title = source.Title,
+                Description = source.Description,
+                Price = source.Price,
+                Images = source.Images,
+                CategoryId = source.CategoryId,
+            };
+        }
+
+        public List<CreateProductServiceModel> Map(IReadOnlyCollection<CreateProduct> source)
         {
             throw new NotImplementedException();
         }

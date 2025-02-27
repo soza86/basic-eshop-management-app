@@ -35,14 +35,12 @@ namespace CSharpApp.Tests.Endpoints
             {
                 new() {
                     Id = 1,
-                    CategoryId = 1,
                     Description = "Test description",
                     Price = 100,
                     Title = "Test title"
                 },
                 new() {
                     Id = 2,
-                    CategoryId = 1,
                     Description = "Test description 2",
                     Price = 50,
                     Title = "Test title 2"
@@ -58,7 +56,6 @@ namespace CSharpApp.Tests.Endpoints
             Assert.True(response.IsSuccessStatusCode);
             Assert.Equal(2, products.Count);
             Assert.Equal(1, products.ElementAtOrDefault(0)?.Id);
-            Assert.Equal(1, products.ElementAtOrDefault(0)?.CategoryId);
             Assert.Equal("Test description", products.ElementAtOrDefault(0)?.Description);
             Assert.Equal(100, products.ElementAtOrDefault(0)?.Price);
             Assert.Equal("Test title", products.ElementAtOrDefault(0)?.Title);
@@ -74,7 +71,6 @@ namespace CSharpApp.Tests.Endpoints
             var productRecord = new Product
             {
                 Id = 1,
-                CategoryId = 1,
                 Description = "Test description",
                 Price = 100,
                 Title = "Test title"
@@ -88,7 +84,6 @@ namespace CSharpApp.Tests.Endpoints
             // Assert
             Assert.True(response.IsSuccessStatusCode);
             Assert.Equal(1, product?.Id);
-            Assert.Equal(1, product?.CategoryId);
             Assert.Equal("Test description", product?.Description);
             Assert.Equal(100, product?.Price);
             Assert.Equal("Test title", product?.Title);
@@ -102,7 +97,6 @@ namespace CSharpApp.Tests.Endpoints
             var product = new Product
             {
                 Id = 1,
-                CategoryId = 1,
                 Description = "Test description",
                 Price = 100,
                 Title = "Test title",
@@ -116,7 +110,6 @@ namespace CSharpApp.Tests.Endpoints
             // Assert
             Assert.True(response.IsSuccessStatusCode);
             Assert.Equal(1, newProduct?.Id);
-            Assert.Equal(1, newProduct?.CategoryId);
             Assert.Equal("Test description", newProduct?.Description);
             Assert.Equal(100, newProduct?.Price);
             Assert.Equal("Test title", newProduct?.Title);

@@ -10,6 +10,7 @@ namespace CSharpApp.Application.Configuration
         {
             services.AddTransient<IMapper<ProductServiceModel, Product>, CustomProductMapper>();
             services.AddTransient<IMapper<Product, ProductServiceModel>, CustomProductMapper>();
+            services.AddTransient<IMapper<CreateProduct, CreateProductServiceModel>, CustomProductMapper>();
             services.AddTransient<IMapper<CategoryServiceModel, Category>, CustomCategoryMapper>();
             services.AddTransient<IMapper<Category, CategoryServiceModel>, CustomCategoryMapper>();
             return services;

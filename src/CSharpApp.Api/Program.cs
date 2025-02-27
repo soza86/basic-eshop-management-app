@@ -74,7 +74,7 @@ namespace CSharpApp.Api
                 .WithName("GetCategoryById")
                 .HasApiVersion(1.0);
 
-            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (Product product, IMediator mediator) =>
+            versionedEndpointRouteBuilder.MapPost("api/v{version:apiVersion}/products", async (CreateProduct product, IMediator mediator) =>
             {
                 var newProduct = await mediator.Send(new CreateProductCommand(product));
                 return newProduct;

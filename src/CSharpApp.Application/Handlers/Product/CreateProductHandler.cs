@@ -7,11 +7,11 @@ namespace CSharpApp.Application.Handlers.Product
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, Core.Dtos.Product>
     {
         private readonly IProductsService _productsService;
-        private readonly IMapper<Core.Dtos.Product, ProductServiceModel> _customProductServiceModelMapper;
+        private readonly IMapper<CreateProduct, CreateProductServiceModel> _customProductServiceModelMapper;
         private readonly IMapper<ProductServiceModel, Core.Dtos.Product> _customProductMapper;
 
         public CreateProductHandler(IProductsService productsService,
-                                    IMapper<Core.Dtos.Product, ProductServiceModel> customProductServiceModelMapper,
+                                    IMapper<CreateProduct, CreateProductServiceModel> customProductServiceModelMapper,
                                     IMapper<ProductServiceModel, Core.Dtos.Product> customProductMapper)
         {
             _productsService = productsService;
