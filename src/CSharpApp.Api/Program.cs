@@ -40,8 +40,6 @@ namespace CSharpApp.Api
                 app.MapOpenApi();
             }
 
-            //app.UseHttpsRedirection();
-
             var versionedEndpointRouteBuilder = app.NewVersionedApi();
 
             versionedEndpointRouteBuilder.MapGet("api/v{version:apiVersion}/products", async (IMediator mediator) =>

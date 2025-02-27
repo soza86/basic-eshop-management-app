@@ -114,6 +114,7 @@ namespace CSharpApp.Tests.Endpoints
             var newProduct = await response.Content.ReadFromJsonAsync<Product>();
 
             // Assert
+            Assert.True(response.IsSuccessStatusCode);
             Assert.Equal(1, newProduct?.Id);
             Assert.Equal(1, newProduct?.CategoryId);
             Assert.Equal("Test description", newProduct?.Description);
