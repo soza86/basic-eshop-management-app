@@ -1,4 +1,9 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Reflection;
+using System.Text.Json;
 
 namespace CSharpApp.Api.Middlewares
 {
@@ -20,6 +25,28 @@ namespace CSharpApp.Api.Middlewares
             try
             {
                 await _next(context);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "An unhandled exception occurred.");
+
+                var statusCode = 500;
+                var statusCodeProperty = exception.GetType().GetProperty("StatusCode", BindingFlags.Public | BindingFlags.Instance);
+                if (statusCodeProperty != null)
+                    statusCode = (int)statusCodeProperty.GetValue(exception)!;
+
+                var problemDetails = new ProblemDetails
+                {
+                    Status = statusCode,
+                    Title = "An error occurred",
+                    Detail = "Please try again later",
+                    Instance = context.Request.Path
+                };
+
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = statusCode;
+                var json = JsonSerializer.Serialize(problemDetails);
+                await context.Response.WriteAsync(json);
             }
             finally
             {
