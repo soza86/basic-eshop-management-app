@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using CSharpApp.Application.Exceptions;
+using FluentValidation;
 using MediatR;
 
 namespace CSharpApp.Application.Validations
@@ -22,7 +23,7 @@ namespace CSharpApp.Application.Validations
                 .ToList();
 
             if (failures.Count != 0)
-                throw new ValidationException(failures);
+                throw new BadRequestException(string.Join(",", failures.Select(a => a.ErrorMessage).ToList()), 400);
 
             return await next();
         }

@@ -61,6 +61,10 @@ namespace CSharpApp.Api.Middlewares
 
             switch (statusCode)
             {
+                case 400:
+                    title = "Bad Request";
+                    detail = exception.Message;
+                    break;
                 case 401:
                     title = "Unauthorized";
                     detail = "You must be authenticated to access this resource.";
@@ -70,7 +74,7 @@ namespace CSharpApp.Api.Middlewares
                     detail = "You do not have permission to access this resource.";
                     break;
                 case 404:
-                    title = "NotFound";
+                    title = "Not Found";
                     detail = "Requested resource was not found.";
                     break;
                 default:
