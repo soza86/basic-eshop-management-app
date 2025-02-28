@@ -30,21 +30,10 @@ namespace CSharpApp.Api.Middlewares
             {
                 _logger.LogError(exception, "An unhandled exception occurred.");
 
-                var statusCode = 500;
-                var statusCodeProperty = exception.GetType().GetProperty("StatusCode", BindingFlags.Public | BindingFlags.Instance);
-                if (statusCodeProperty != null)
-                    statusCode = (int)statusCodeProperty.GetValue(exception)!;
-
-                var problemDetails = new ProblemDetails
-                {
-                    Status = statusCode,
-                    Title = "An error occurred",
-                    Detail = "Please try again later",
-                    Instance = context.Request.Path
-                };
+                var problemDetails = GetProblemDetails(context, exception);
 
                 context.Response.ContentType = "application/json";
-                context.Response.StatusCode = statusCode;
+                context.Response.StatusCode = problemDetails.Status.Value;
                 var json = JsonSerializer.Serialize(problemDetails);
                 await context.Response.WriteAsync(json);
             }
@@ -58,6 +47,43 @@ namespace CSharpApp.Api.Middlewares
                     context.Request.Path,
                     elapsedMs);
             }
+        }
+
+        private static ProblemDetails GetProblemDetails(HttpContext context, Exception exception)
+        {
+            var statusCode = 500;
+            var title = "Something went wrong";
+            var detail = "Please try again later";
+
+            var statusCodeProperty = exception.GetType().GetProperty("StatusCode", BindingFlags.Public | BindingFlags.Instance);
+            if (statusCodeProperty != null)
+                statusCode = (int)statusCodeProperty.GetValue(exception)!;
+
+            switch (statusCode)
+            {
+                case 401:
+                    title = "Unauthorized";
+                    detail = "You must be authenticated to access this resource.";
+                    break;
+                case 403:
+                    title = "Forbidden";
+                    detail = "You do not have permission to access this resource.";
+                    break;
+                case 404:
+                    title = "NotFound";
+                    detail = "Requested resource was not found.";
+                    break;
+                default:
+                    break;
+            }
+
+            return new ProblemDetails
+            {
+                Status = statusCode,
+                Title = title,
+                Detail = detail,
+                Instance = context.Request.Path
+            };
         }
     }
 }
