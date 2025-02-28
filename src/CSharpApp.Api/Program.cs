@@ -3,9 +3,13 @@ using CSharpApp.Application;
 using CSharpApp.Application.Commands.Category;
 using CSharpApp.Application.Commands.Product;
 using CSharpApp.Application.Configuration;
+using CSharpApp.Application.Handlers.Category;
+using CSharpApp.Application.Handlers.Product;
 using CSharpApp.Application.Queries.Category;
 using CSharpApp.Application.Queries.Product;
+using CSharpApp.Application.Validations;
 using CSharpApp.Core.Dtos;
+using FluentValidation;
 using MediatR;
 
 namespace CSharpApp.Api
@@ -29,6 +33,9 @@ namespace CSharpApp.Api
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly));
             builder.Services.AddMappingConfiguration();
             builder.Services.AddMemoryCache();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             var app = builder.Build();
 
